@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+logs/
+tb_logs/
+models/
+*.egg-info/
+.DS_Store
+Thumbs.db
+server.log
+report.pdf
+results/*.gif
+results/*.mp4

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPO vs SAC — live training</title>
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+
+<header>
+  <h1>PPO vs SAC — Ant-v4, training live</h1>
+</header>
+
+<section class="toolbar">
+  <button id="pause">Pause</button>
+  <button id="reset">Reset episodes</button>
+  <button id="restart">Restart training</button>
+  <label>Speed
+    <select id="speed" autocomplete="off">
+      <option value="0.5">0.5×</option>
+      <option value="1" selected>1×</option>
+      <option value="2">2×</option>
+    </select>
+  </label>
+  <span id="status">connecting…</span>
+</section>
+
+<section class="panels">
+  <article class="panel">
+    <div class="panel-head">
+      <span class="policy" id="leftPolicyHost"></span>
+    </div>
+    <canvas id="leftCanvas"></canvas>
+    <dl class="stats">
+      <div><dt>Trained steps</dt><dd id="leftTrained">0</dd></div>
+      <div><dt>Mean reward</dt><dd id="leftMean">—</dd></div>
+      <div><dt>This episode</dt><dd id="leftReturn">0</dd></div>
+      <div><dt>Distance</dt><dd id="leftDistance">0.00</dd></div>
+    </dl>
+  </article>
+
+  <article class="panel">
+    <div class="panel-head">
+      <span class="policy" id="rightPolicyHost"></span>
+    </div>
+    <canvas id="rightCanvas"></canvas>
+    <dl class="stats">
+      <div><dt>Trained steps</dt><dd id="rightTrained">0</dd></div>
+      <div><dt>Mean reward</dt><dd id="rightMean">—</dd></div>
+      <div><dt>This episode</dt><dd id="rightReturn">0</dd></div>
+      <div><dt>Distance</dt><dd id="rightDistance">0.00</dd></div>
+    </dl>
+  </article>
+</section>
+
+<section class="chart">
+  <div class="chart-head">
+    <span>Mean episode reward while training <b id="leader"></b></span>
+    <span class="legend"><i class="ppo"></i>PPO <i class="sac"></i>SAC</span>
+  </div>
+  <canvas id="curve" height="200"></canvas>
+</section>
+
+<footer>
+  Drag a view to orbit, scroll to zoom. SAC usually starts pushing forward
+  around 50–100k steps; PPO needs far more samples for the same gait.
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "algo": "sac",
+  "run_name": "sac",
+  "timesteps": 1000000,
+  "num_timesteps": 1000000,
+  "remaining_timesteps": 0,
+  "stopped_early": false,
+  "last_checkpoint": "models/checkpoints/sac/sac_1000000_steps.zip",
+  "n_envs": 1,
+  "seed": 0,
+  "device": "cuda",
+  "randomize": false,
+  "wall_clock_seconds": 9638.823666,
+  "wall_clock_hours": 2.6774510183333335,
+  "model_path": "models/sac_ant.zip",
+  "vecnormalize_path": "None",
+  "curve_path": "results/sac_reward_curve.png",
+  "episode_stats": {
+    "n_episodes": 991,
+    "mean_reward": 4554.30956762,
+    "std_reward": 969.6299197758344,
+    "mean_length": 956.24,
+    "last_reward": 4794.136931
+  }
+}

@@ -1,0 +1,14 @@
+gymnasium[mujoco]==0.29.1
+mujoco==3.1.6
+stable-baselines3==2.3.2
+tensorboard==2.17.1
+imageio==2.35.1
+imageio-ffmpeg==0.5.1
+opencv-python==4.10.0.84
+matplotlib==3.9.2
+numpy==1.26.4
+pandas==2.2.2
+fpdf2==2.8.1
+tqdm==4.66.5
+rich==13.8.1
+torch==2.4.1

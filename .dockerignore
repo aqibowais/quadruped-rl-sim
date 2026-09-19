@@ -1,0 +1,11 @@
+.git
+.github
+.venv
+__pycache__
+*.pyc
+logs
+tb_logs
+models
+results
+server.log
+report.pdf

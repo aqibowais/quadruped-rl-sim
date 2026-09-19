@@ -1,0 +1,20 @@
+{
+  "algo": "ppo",
+  "run_name": "ppo",
+  "timesteps": 1000000,
+  "n_envs": 8,
+  "seed": 0,
+  "randomize": false,
+  "wall_clock_seconds": 459.4548943000009,
+  "wall_clock_hours": 0.127626359527778,
+  "model_path": "models/ppo_ant.zip",
+  "vecnormalize_path": "models/ppo_vecnormalize.pkl",
+  "curve_path": "results/ppo_reward_curve.png",
+  "episode_stats": {
+    "n_episodes": 14526,
+    "mean_reward": 15.919852699999996,
+    "std_reward": 32.57691458047953,
+    "mean_length": 64.4,
+    "last_reward": 25.942794
+  }
+}
