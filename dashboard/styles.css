@@ -41,6 +41,7 @@ select, button {
   cursor: pointer;
 }
 button:hover, select:hover { border-color: #b4b9c2; }
+button[aria-pressed="true"] { background: #16181d; color: #fff; border-color: #16181d; }
 
 .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .panel { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }

@@ -4,24 +4,15 @@ An end-to-end continuous-control project that trains Gymnasium's MuJoCo
 `Ant-v4` with **Proximal Policy Optimization (PPO)** and
 **Soft Actor-Critic (SAC)**. It includes reproducible training, SAC
 checkpoint/resume support, robustness experiments through domain
-randomization, and a browser-based live comparison of both algorithms.
+randomization, and a browser viewer that plays the saved policies in real time.
 
 ![Live PPO and SAC training dashboard](docs/dashboard-live.png)
 
 ## Live application
 
-`live_server.py` creates fresh PPO and SAC agents, trains them concurrently,
-and periodically copies each policy into a deterministic display environment.
-The Python backend streams MuJoCo body transforms and metrics with
-Server-Sent Events. Three.js renders both robots in the browser.
+`live_server.py` loads the checkpoints already on disk and plays them in real time. It does not start a training job. Both views open on the saved SAC policy, which is the run that walks. Training progress walks the SAC checkpoints in order. 2× and 4× only speed that playback up. PPO is still in the dropdown; its saved run does not walk.
 
-The interface provides:
-
-- synchronized PPO and SAC 3D views;
-- current training steps, rolling reward, episode return, and distance;
-- a wall-clock learning curve;
-- pause, display reset, simulation speed, and policy selection controls;
-- optional comparison with locally saved final policies.
+The Python backend streams MuJoCo body transforms with Server-Sent Events. Three.js renders both robots in the browser. Training itself stays in `train.py`.
 
 ## Quick start
 
@@ -193,7 +184,7 @@ constraints.
 dashboard/                Browser UI and Three.js renderer
 docs/                     Project and deployment documentation
 scripts/                  Public demo launcher
-live_server.py            Concurrent live training and streaming backend
+live_server.py            Saved-policy viewer. Does not train on launch
 train.py                  Reproducible PPO/SAC training
 evaluate.py               Frozen-policy evaluation
 randomize_env.py          Environment factory and domain randomization

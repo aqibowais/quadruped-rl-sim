@@ -1,10 +1,9 @@
-"""Live side-by-side RL training viewer.
+"""Saved-policy viewer for the Ant runs.
 
-Trains PPO and SAC on Ant-v4 from scratch, in this process, right now. Each
-algorithm's current policy is copied every few thousand steps into a display
-simulation that runs at real time and streams body transforms to the browser,
-so the 3D views show what the policies can actually do at this moment in
-training. Learning curves come from the live episode buffers.
+Opens on the finished checkpoints already on disk. The simulation runs in
+real time. Playback speed only changes how fast those saved policies are
+shown. A progress pass walks the SAC checkpoints in order. This process
+does not start a training job.
 
     python live_server.py
 
@@ -210,18 +209,45 @@ class LiveTrainer:
 # --------------------------------------------------------------------------- #
 
 
+def sac_checkpoint_steps() -> list[int]:
+    folder = MODELS / "checkpoints" / "sac"
+    steps = []
+    if not folder.exists():
+        return steps
+    for path in folder.glob("sac_*_steps.zip"):
+        parts = path.stem.split("_")
+        if len(parts) >= 2 and parts[1].isdigit():
+            steps.append(int(parts[1]))
+    return sorted(set(steps))
+
+
 def discover_policies() -> list[dict]:
-    """Live lanes first, then the finished runs worth comparing against."""
-    options = [
-        {"id": "live_ppo", "label": "PPO — training live"},
-        {"id": "live_sac", "label": "SAC — training live"},
-        {"id": "random", "label": "Random actions"},
-    ]
+    """Saved checkpoints only. Nothing here is a live training lane."""
+    options = []
+    steps = sac_checkpoint_steps()
+    if 1_000_000 in steps or (MODELS / "sac_ant.zip").exists():
+        options.append({"id": "sac_1000000", "label": "SAC — saved 1M"})
+    for step in steps:
+        if step == 1_000_000:
+            continue
+        options.append({"id": f"sac_{step}", "label": f"SAC — {step // 1000}k"})
     if (MODELS / "ppo_ant.zip").exists():
-        options.append({"id": "ppo", "label": "PPO — finished 1.0M run"})
-    if (MODELS / "sac_ant.zip").exists():
-        options.append({"id": "sac_1000000", "label": "SAC — finished 1.0M run"})
+        options.append({"id": "ppo", "label": "PPO — saved 1M"})
+    options.append({"id": "random", "label": "Random actions"})
     return options
+
+
+def saved_summary() -> dict:
+    summary = {}
+    for name in ("ppo", "sac"):
+        path = ROOT / "results" / f"{name}_stats.json"
+        if not path.exists():
+            continue
+        try:
+            summary[name] = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+    return summary
 
 
 class SavedPolicies:
@@ -312,18 +338,20 @@ class Simulation:
     def __init__(self, left: str, right: str) -> None:
         self.lock = threading.Lock()
         self.condition = threading.Condition(self.lock)
-        self.trainers = {"ppo": LiveTrainer("ppo"), "sac": LiveTrainer("sac")}
+        self.trainers: dict = {}
+        self.sac_steps = sac_checkpoint_steps()
+        self.progress = False
+        self.progress_cursor = 0
+        self.progress_ticks = 0
         self.panels = {
             "left": Panel("left", left, self.trainers, seed=11),
-            "right": Panel("right", right, self.trainers, seed=11),
+            "right": Panel("right", right, self.trainers, seed=12),
         }
         self.speed = 1.0
         self.paused = False
         self.frame: dict = {}
         self.tick = 0
         self.geometry = self._describe_geometry()
-        for trainer in self.trainers.values():
-            trainer.start()
         threading.Thread(target=self._loop, daemon=True).start()
 
     def _describe_geometry(self) -> list[dict]:
@@ -351,13 +379,27 @@ class Simulation:
                 if not self.paused:
                     for panel in self.panels.values():
                         panel.step()
-                # frames keep flowing while paused so resets stay visible
+                    if self.progress and self.sac_steps:
+                        self.progress_ticks += 1
+                        # 100 env steps is 5 simulated seconds. Higher playback
+                        # speed shortens the wall-clock time between checkpoints.
+                        if self.progress_ticks >= 100:
+                            self.progress_ticks = 0
+                            self.progress_cursor = (self.progress_cursor + 1) % len(self.sac_steps)
+                            step = self.sac_steps[self.progress_cursor]
+                            self.panels["left"].set_policy(f"sac_{step}")
+                            self.panels["left"].reset_episode()
                 self.tick += 1
+                progress_step = (
+                    self.sac_steps[self.progress_cursor] if self.progress and self.sac_steps else None
+                )
                 self.frame = {
                     "tick": self.tick,
                     "paused": self.paused,
+                    "progress": self.progress,
+                    "progressStep": progress_step,
                     "panels": [p.snapshot() for p in self.panels.values()],
-                    "trainers": {k: t.stats() for k, t in self.trainers.items()},
+                    "trainers": {},
                 }
                 self.condition.notify_all()
                 interval = (ENV_DT / self.speed) if not self.paused else 0.05
@@ -378,27 +420,45 @@ class Simulation:
         return {k: t.history[:] for k, t in self.trainers.items()}
 
     def configure(self, payload: dict) -> dict:
-        restart = bool(payload.get("restartTraining"))
         with self.lock:
+            if "progress" in payload:
+                self.progress = bool(payload["progress"])
+                self.progress_ticks = 0
+                self.progress_cursor = 0
+                if self.progress and self.sac_steps:
+                    self.panels["left"].set_policy(f"sac_{self.sac_steps[0]}")
+                    self.panels["left"].reset_episode()
+                elif not self.progress:
+                    finished = "sac_1000000"
+                    known = {option["id"] for option in discover_policies()}
+                    if finished in known:
+                        self.panels["left"].set_policy(finished)
+                        self.panels["right"].set_policy(finished)
+                        for panel in self.panels.values():
+                            panel.reset_episode()
             for side in ("left", "right"):
                 if side in payload:
                     self.panels[side].set_policy(payload[side])
+                    if side == "left":
+                        self.progress = False
             if "speed" in payload:
                 self.speed = max(0.25, min(4.0, float(payload["speed"])))
             if "paused" in payload:
                 self.paused = bool(payload["paused"])
-            if payload.get("reset") or restart:
+            if payload.get("reset"):
                 for panel in self.panels.values():
                     panel.reset_episode()
+            progress_step = (
+                self.sac_steps[self.progress_cursor] if self.progress and self.sac_steps else None
+            )
             state = {
                 "left": self.panels["left"].policy_id,
                 "right": self.panels["right"].policy_id,
                 "speed": self.speed,
                 "paused": self.paused,
+                "progress": self.progress,
+                "progressStep": progress_step,
             }
-        if restart:  # rebuilding models must not hold the simulation lock
-            for trainer in self.trainers.values():
-                trainer.restart()
         return state
 
 
@@ -431,7 +491,9 @@ class Handler(SimpleHTTPRequestHandler):
                     "geometry": SIM.geometry,
                     "left": SIM.panels["left"].policy_id,
                     "right": SIM.panels["right"].policy_id,
-                    "allowRestart": ALLOW_RESTART,
+                    "allowRestart": False,
+                    "saved": saved_summary(),
+                    "progress": SIM.progress,
                 }
             )
         elif self.path.startswith("/api/history"):
@@ -447,8 +509,7 @@ class Handler(SimpleHTTPRequestHandler):
             return
         length = int(self.headers.get("Content-Length", 0))
         payload = json.loads(self.rfile.read(length) or b"{}")
-        if not ALLOW_RESTART:
-            payload.pop("restartTraining", None)
+        payload.pop("restartTraining", None)
         if VERBOSE:
             print(f"config {payload} from {self.headers.get('Referer')}", flush=True)
         self._json(SIM.configure(payload))
@@ -473,8 +534,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Live RL training viewer")
     parser.add_argument("--host", default=os.getenv("HOST", "127.0.0.1"))
     parser.add_argument("--port", type=int, default=int(os.getenv("PORT", "8080")))
-    parser.add_argument("--left", default="live_ppo")
-    parser.add_argument("--right", default="live_sac")
+    parser.add_argument("--left", default="sac_1000000")
+    parser.add_argument("--right", default="sac_1000000")
     parser.add_argument("--no-open", action="store_true")
     parser.add_argument("--verbose", action="store_true", help="log config requests")
     args = parser.parse_args()
@@ -484,9 +545,12 @@ def main() -> None:
     torch.set_num_threads(2)  # two trainers plus two display sims share this box
 
     global SIM
-    print("Building PPO and SAC from scratch...")
-    SIM = Simulation(args.left, args.right)
-    print("Training started.")
+    known = {option["id"] for option in discover_policies()}
+    left = args.left if args.left in known else ("sac_1000000" if "sac_1000000" in known else "random")
+    right = args.right if args.right in known else left
+    print("Loading saved policies. This server does not train.")
+    SIM = Simulation(left, right)
+    print(f"Playing {left} and {right}.")
 
     handler = partial(Handler, directory=str(DASHBOARD))
     with ThreadingHTTPServer((args.host, args.port), handler) as server:

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PPO vs SAC — live training</title>
+<title>Saved Ant policies</title>
 <link rel="stylesheet" href="styles.css">
 <script type="importmap">
 { "imports": { "three": "./vendor/three.module.js" } }
@@ -12,20 +12,21 @@
 <body>
 
 <header>
-  <h1>PPO vs SAC — Ant-v4, training live</h1>
+  <h1>Saved Ant policies</h1>
 </header>
 
 <section class="toolbar">
   <button id="pause">Pause</button>
   <button id="reset">Reset episodes</button>
-  <button id="restart">Restart training</button>
   <label>Speed
     <select id="speed" autocomplete="off">
       <option value="0.5">0.5×</option>
       <option value="1" selected>1×</option>
       <option value="2">2×</option>
+      <option value="4">4×</option>
     </select>
   </label>
+  <button id="progress" type="button" aria-pressed="false">Training progress</button>
   <span id="status">connecting…</span>
 </section>
 
@@ -59,15 +60,14 @@
 
 <section class="chart">
   <div class="chart-head">
-    <span>Mean episode reward while training <b id="leader"></b></span>
+    <span id="savedLine">Saved evaluation</span>
     <span class="legend"><i class="ppo"></i>PPO <i class="sac"></i>SAC</span>
   </div>
   <canvas id="curve" height="200"></canvas>
 </section>
 
 <footer>
-  Drag a view to orbit, scroll to zoom. SAC usually starts pushing forward
-  around 50–100k steps; PPO needs far more samples for the same gait.
+  Both views open on the saved SAC policy and run in real time. Training progress walks the SAC checkpoints from the earliest file to the last. 2× and 4× only speed that playback up. Drag a view to orbit, scroll to zoom.
 </footer>
 
 <script type="module" src="app.js"></script>

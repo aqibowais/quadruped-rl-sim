@@ -221,7 +221,7 @@ const fmt = v => Number(v).toFixed(2);
 const big = v => Math.round(v).toLocaleString();
 
 let latestTrainers = {};
-let history = { ppo: [], sac: [] };
+let savedBars = [];
 const selects = {};
 const serverValue = {};
 let unloading = false;
@@ -238,9 +238,9 @@ function trainedStepsFor(policyId) {
 }
 
 function meanRewardFor(policyId) {
-  if (!policyId.startsWith("live_")) return null;
-  const stats = latestTrainers[policyId.slice(5)];
-  return stats ? stats.reward : null;
+  if (policyId === "ppo") return savedBars.find(bar => bar.name === "PPO")?.reward ?? null;
+  if (policyId === "sac_1000000") return savedBars.find(bar => bar.name === "SAC")?.reward ?? null;
+  return null;
 }
 
 function setStats(side, panel) {
@@ -264,60 +264,23 @@ function drawCurve() {
   const ctx = canvas.getContext("2d");
   ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
   ctx.clearRect(0, 0, w, h);
-
-  const series = [
-    { points: history.ppo || [], color: PPO_COLOR },
-    { points: history.sac || [], color: SAC_COLOR },
-  ];
-  const all = series.flatMap(s => s.points);
-  const pad = { l: 52, r: 12, t: 12, b: 24 };
-
-  ctx.font = "11px -apple-system, Segoe UI, Roboto, Arial";
-  ctx.fillStyle = "#6b7280";
-  if (all.length < 2) {
-    ctx.fillText("collecting episodes…", pad.l, h / 2);
+  ctx.font = "12px -apple-system, Segoe UI, Roboto, Arial";
+  if (!savedBars.length) {
+    ctx.fillStyle = "#6b7280";
+    ctx.fillText("Saved evaluation", 16, h / 2);
     return;
   }
-
-  // both lanes train simultaneously, so wall-clock is the fair shared axis
-  const maxMinutes = Math.max(...all.map(p => p.minutes), 0.1);
-  let lo = Math.min(...all.map(p => p.reward));
-  let hi = Math.max(...all.map(p => p.reward));
-  if (hi - lo < 1) { hi += 1; lo -= 1; }
-  const x = m => pad.l + (m / maxMinutes) * (w - pad.l - pad.r);
-  const y = r => h - pad.b - ((r - lo) / (hi - lo)) * (h - pad.t - pad.b);
-
-  ctx.strokeStyle = "#eceef1";
-  ctx.lineWidth = 1;
-  for (let i = 0; i <= 4; i++) {
-    const value = lo + (hi - lo) * (i / 4);
-    const yy = Math.round(y(value)) + .5;
-    ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(w - pad.r, yy); ctx.stroke();
-    ctx.fillText(Math.round(value).toLocaleString(), 6, yy + 4);
-  }
-  ctx.fillText("0 min", pad.l, h - 8);
-  ctx.fillText(maxMinutes.toFixed(1) + " min", w - pad.r - 44, h - 8);
-
-  ctx.lineWidth = 1.8;
-  for (const s of series) {
-    if (s.points.length < 2) continue;
-    ctx.strokeStyle = s.color;
-    ctx.beginPath();
-    s.points.forEach((p, i) =>
-      i ? ctx.lineTo(x(p.minutes), y(p.reward)) : ctx.moveTo(x(p.minutes), y(p.reward)));
-    ctx.stroke();
-  }
-}
-
-function updateLeader() {
-  const ppo = latestTrainers.ppo, sac = latestTrainers.sac;
-  const node = document.getElementById("leader");
-  if (!ppo || !sac || ppo.reward === null || sac.reward === null) {
-    node.textContent = "";
-    return;
-  }
-  const ahead = ppo.reward >= sac.reward ? "PPO" : "SAC";
-  node.textContent = `${ahead} ahead by ${big(Math.abs(ppo.reward - sac.reward))} reward`;
+  const max = Math.max(...savedBars.map(bar => bar.reward), 1);
+  const row = Math.min(36, (h - 24) / savedBars.length);
+  savedBars.forEach((bar, index) => {
+    const y = 16 + index * row;
+    ctx.fillStyle = "#6b7280";
+    ctx.fillText(bar.name, 12, y + 16);
+    ctx.fillStyle = bar.color;
+    ctx.fillRect(64, y + 4, Math.max(4, (bar.reward / max) * (w - 160)), 16);
+    ctx.fillStyle = "#16181d";
+    ctx.fillText(Math.round(bar.reward).toLocaleString(), 72 + (bar.reward / max) * (w - 160), y + 16);
+  });
 }
 
 async function postConfig(payload) {
@@ -365,20 +328,30 @@ function buildSelect(side, selected) {
   selects[side] = select;
 }
 
-async function refreshHistory() {
-  try {
-    history = await fetch("/api/history").then(r => r.json());
-    drawCurve();
-  } catch { /* server restarting */ }
+function rememberSaved(saved) {
+  savedBars = [];
+  if (saved.sac && saved.sac.episode_stats) {
+    savedBars.push({ name: "SAC", reward: saved.sac.episode_stats.mean_reward, color: SAC_COLOR });
+  }
+  if (saved.ppo && saved.ppo.episode_stats) {
+    savedBars.push({ name: "PPO", reward: saved.ppo.episode_stats.mean_reward, color: PPO_COLOR });
+  }
+  drawCurve();
 }
 
 async function init() {
   const setup = await fetch("/api/setup").then(r => r.json());
   policies = setup.policies;
   geometry = setup.geometry;
-  if (!setup.allowRestart) {
-    document.getElementById("restart").hidden = true;
+  const saved = setup.saved || {};
+  const line = [];
+  for (const [name, stats] of [["SAC", saved.sac], ["PPO", saved.ppo]]) {
+    const episode = stats && stats.episode_stats;
+    if (!episode) continue;
+    line.push(`${name} mean return ${Math.round(episode.mean_reward)}, ${Math.round(episode.mean_length)} steps`);
   }
+  document.getElementById("savedLine").textContent = line.join("  ·  ") || "Saved policies";
+  rememberSaved(saved);
 
   views.left = createView("leftCanvas", 0x3b82f6);
   views.right = createView("rightCanvas", 0x0f9d6e);
@@ -390,16 +363,13 @@ async function init() {
   document.getElementById("speed").addEventListener("change", e => postConfig({ speed: Number(e.target.value) }));
   document.getElementById("reset").addEventListener("click", () => postConfig({ reset: true }));
 
-  const restart = document.getElementById("restart");
-  restart.addEventListener("click", async () => {
-    if (!confirm("Throw away both networks and start training from scratch?")) return;
-    restart.disabled = true;
-    restart.textContent = "Restarting…";
-    history = { ppo: [], sac: [] };
-    drawCurve();
-    await postConfig({ restartTraining: true });
-    restart.disabled = false;
-    restart.textContent = "Restart training";
+  const progress = document.getElementById("progress");
+  let showingProgress = false;
+  progress.addEventListener("click", async () => {
+    showingProgress = !showingProgress;
+    progress.setAttribute("aria-pressed", showingProgress ? "true" : "false");
+    progress.textContent = showingProgress ? "Show saved run" : "Training progress";
+    await postConfig({ progress: showingProgress });
   });
 
   const pause = document.getElementById("pause");
@@ -426,15 +396,14 @@ async function init() {
       applyFrame(views[panel.id], panel);
       setStats(panel.id, panel);
     }
-    updateLeader();
-    const ppo = latestTrainers.ppo, sac = latestTrainers.sac;
-    status.textContent = frame.paused
-      ? "paused"
-      : `training · PPO ${big(ppo ? ppo.steps : 0)} steps · SAC ${big(sac ? sac.steps : 0)} steps`;
+    if (frame.progress) {
+      const mark = frame.progressStep ? `${Math.round(frame.progressStep / 1000)}k` : "";
+      status.textContent = frame.paused ? "paused" : `checkpoints · SAC ${mark}`;
+    } else {
+      status.textContent = frame.paused ? "paused" : "saved policy · real time";
+    }
   };
 
-  refreshHistory();
-  setInterval(refreshHistory, 3000);
   addEventListener("resize", drawCurve);
 
   let last = performance.now();
