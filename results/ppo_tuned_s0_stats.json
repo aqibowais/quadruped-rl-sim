@@ -1,0 +1,25 @@
+{
+  "algo": "ppo",
+  "run_name": "ppo_tuned_s0",
+  "timesteps": 2000000,
+  "num_timesteps": 2007040,
+  "remaining_timesteps": 0,
+  "stopped_early": false,
+  "last_checkpoint": "C:\\Users\\Aqib\\Desktop\\Ai projects\\quadruped-rl-sim\\models\\checkpoints\\ppo_tuned_s0\\ppo_tuned_s0_2000000_steps.zip",
+  "n_envs": 8,
+  "seed": 0,
+  "device": "cuda",
+  "randomize": false,
+  "wall_clock_seconds": 2126.315195400006,
+  "wall_clock_hours": 0.590643109833335,
+  "model_path": "C:\\Users\\Aqib\\Desktop\\Ai projects\\quadruped-rl-sim\\models\\ppo_tuned_s0_ant.zip",
+  "vecnormalize_path": "C:\\Users\\Aqib\\Desktop\\Ai projects\\quadruped-rl-sim\\models\\ppo_tuned_s0_vecnormalize.pkl",
+  "curve_path": "C:\\Users\\Aqib\\Desktop\\Ai projects\\quadruped-rl-sim\\results\\ppo_tuned_s0_reward_curve.png",
+  "episode_stats": {
+    "n_episodes": 2422,
+    "mean_reward": 3235.32095645,
+    "std_reward": 1280.62434800478,
+    "mean_length": 904.28,
+    "last_reward": 4380.137854
+  }
+}

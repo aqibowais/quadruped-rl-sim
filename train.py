@@ -207,10 +207,44 @@ def wrap_normalize(vec_env, algo: str, *, training: bool) -> VecNormalize:
     )
 
 
-def build_model(algo: str, env, seed: int, tb_log: str, device: str = "auto"):
+def build_model(
+    algo: str,
+    env,
+    seed: int,
+    tb_log: str,
+    device: str = "auto",
+    ppo_preset: str = "tuned",
+):
     algo_cls = ALGOS[algo]
     # Keep close to SB3 defaults, with a modest net and (for PPO) a batch that
     # matches 8-env rollouts. VecNormalize is the important extra.
+    if algo == "ppo" and ppo_preset == "tuned":
+        # The legacy preset starts with action std 1.0. On Ant that makes the
+        # torso hop above z=1.0, which terminates the episode, and the policy
+        # never gets long enough episodes to learn a gait. A lower initial std,
+        # separate 256x256 actor/critic and longer rollouts fix that.
+        return PPO(
+            "MlpPolicy",
+            env,
+            verbose=1,
+            seed=seed,
+            tensorboard_log=tb_log,
+            device="cpu",
+            n_steps=1024,
+            batch_size=256,
+            gae_lambda=0.95,
+            gamma=0.99,
+            n_epochs=10,
+            learning_rate=3e-4,
+            clip_range=0.2,
+            ent_coef=0.0,
+            vf_coef=0.5,
+            max_grad_norm=0.5,
+            policy_kwargs=dict(
+                log_std_init=-1.0,
+                net_arch=dict(pi=[256, 256], vf=[256, 256]),
+            ),
+        )
     if algo == "ppo":
         return PPO(
             "MlpPolicy",
@@ -256,6 +290,12 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--n-envs", type=int, default=0, help="0 = algo default (8 PPO / 1 SAC)")
     p.add_argument("--randomize", action="store_true", help="Train with domain randomization")
+    p.add_argument(
+        "--ppo-preset",
+        choices=["tuned", "legacy"],
+        default="tuned",
+        help="PPO hyperparameters. 'legacy' reproduces the first, failed run.",
+    )
     p.add_argument("--run-name", type=str, default=None)
     p.add_argument("--eval-freq", type=int, default=50_000)
     p.add_argument("--eval-episodes", type=int, default=10)
@@ -385,7 +425,7 @@ def main() -> None:
             f"toward target {target_ts:,}"
         )
     else:
-        model = build_model(args.algo, train_env, seed, tb_log, device=device)
+        model = build_model(args.algo, train_env, seed, tb_log, device=device, ppo_preset=args.ppo_preset)
 
     already = int(model.num_timesteps)
     if stop_at is not None and already >= stop_at:

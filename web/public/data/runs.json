@@ -1,0 +1,1519 @@
+{
+ "seeds": [
+  100,
+  101,
+  102,
+  103,
+  104
+ ],
+ "runs": [
+  {
+   "id": "random",
+   "label": "Random actions",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 68,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      68,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 24752,
+     "dtype": "float32",
+     "shape": [
+      68,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 25840,
+     "dtype": "uint8",
+     "shape": [
+      68
+     ]
+    },
+    "torques": {
+     "offset": 25908,
+     "dtype": "int8",
+     "shape": [
+      68,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": -23.194492997376024,
+    "length": 68,
+    "fell": true,
+    "distance": -0.24399920738770486,
+    "speed": -0.07176447276108966
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.1323529411764706,
+     "FR": 0.14705882352941177,
+     "BL": 0.17647058823529413,
+     "BR": 0.14705882352941177
+    },
+    "mean_feet_down": 0.6029411764705882,
+    "airborne": 0.6029411764705882
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": -42.708825810736926,
+    "return_std": 61.08932717177809,
+    "returns": [
+     -23.19,
+     -4.91,
+     -3.89,
+     -17.55,
+     -164.0
+    ],
+    "falls": 5,
+    "length_mean": 81.0,
+    "speed_mean": -0.015267828349737856,
+    "distance_mean": -0.7654156026743865,
+    "effort_mean": 2.657756287718935
+   }
+  },
+  {
+   "id": "ppo_legacy",
+   "label": "PPO, first run",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 64,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      64,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 23296,
+     "dtype": "float32",
+     "shape": [
+      64,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 24320,
+     "dtype": "uint8",
+     "shape": [
+      64
+     ]
+    },
+    "torques": {
+     "offset": 24384,
+     "dtype": "int8",
+     "shape": [
+      64,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 118.64759556225886,
+    "length": 64,
+    "fell": true,
+    "distance": 4.825587402484787,
+    "speed": 1.507996063276496
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.125,
+     "FR": 0.21875,
+     "BL": 0.203125,
+     "BR": 0.15625
+    },
+    "mean_feet_down": 0.703125,
+    "airborne": 0.546875
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 217.71431820933964,
+    "return_std": 187.92892449343472,
+    "returns": [
+     118.65,
+     588.59,
+     82.31,
+     121.39,
+     177.63
+    ],
+    "falls": 5,
+    "length_mean": 242.2,
+    "speed_mean": 0.9399976651093891,
+    "distance_mean": 6.892195911393971,
+    "effort_mean": 1.31507826616545
+   }
+  },
+  {
+   "id": "ppo_tuned_s0",
+   "label": "PPO, tuned (seed 0)",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 4874.043743536964,
+    "length": 1000,
+    "fell": false,
+    "distance": 215.35554624177846,
+    "speed": 4.307110924835569
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.18,
+     "FR": 0.166,
+     "BL": 0.172,
+     "BR": 0.097
+    },
+    "mean_feet_down": 0.615,
+    "airborne": 0.606
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 4111.443774691642,
+    "return_std": 977.6435642769075,
+    "returns": [
+     4874.04,
+     2405.8,
+     3618.66,
+     4914.56,
+     4744.15
+    ],
+    "falls": 1,
+    "length_mean": 900.0,
+    "speed_mean": 4.037882416185407,
+    "distance_mean": 180.50424181494492,
+    "effort_mean": 0.8905705401867628
+   }
+  },
+  {
+   "id": "sac_50k",
+   "label": "SAC at 50k steps",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 824.897634629257,
+    "length": 1000,
+    "fell": false,
+    "distance": 0.48045124877728546,
+    "speed": 0.00960902497554571
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.951,
+     "FR": 0.958,
+     "BL": 0.011,
+     "BR": 0.967
+    },
+    "mean_feet_down": 2.887,
+    "airborne": 0.016
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 672.9767706662559,
+    "return_std": 296.59579620199,
+    "returns": [
+     824.9,
+     836.35,
+     835.61,
+     787.15,
+     80.87
+    ],
+    "falls": 1,
+    "length_mean": 841.2,
+    "speed_mean": 0.03240643572568874,
+    "distance_mean": 1.4342053523216332,
+    "effort_mean": 0.5941753627709973
+   }
+  },
+  {
+   "id": "sac_100k",
+   "label": "SAC at 100k steps",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 918.7737273283025,
+    "length": 1000,
+    "fell": false,
+    "distance": 1.6573703300044698,
+    "speed": 0.03314740660008939
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.91,
+     "FR": 0.851,
+     "BL": 0.14,
+     "BR": 0.956
+    },
+    "mean_feet_down": 2.857,
+    "airborne": 0.002
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 603.4967973507635,
+    "return_std": 336.9703611593428,
+    "returns": [
+     918.77,
+     924.75,
+     578.99,
+     -0.22,
+     595.19
+    ],
+    "falls": 1,
+    "length_mean": 801.6,
+    "speed_mean": 0.15193825143695122,
+    "distance_mean": 0.9962548384969019,
+    "effort_mean": 1.1077166224226356
+   }
+  },
+  {
+   "id": "sac_200k",
+   "label": "SAC at 200k steps",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 964.2950994737503,
+    "length": 1000,
+    "fell": false,
+    "distance": 1.677589524314086,
+    "speed": 0.03355179048628172
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.969,
+     "FR": 0.978,
+     "BL": 0.004,
+     "BR": 0.971
+    },
+    "mean_feet_down": 2.922,
+    "airborne": 0.016
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 846.0541967852357,
+    "return_std": 214.09918458221983,
+    "returns": [
+     964.3,
+     947.22,
+     940.52,
+     960.03,
+     418.2
+    ],
+    "falls": 0,
+    "length_mean": 1000.0,
+    "speed_mean": 0.015175205776730788,
+    "distance_mean": 0.7587602888365395,
+    "effort_mean": 0.33824199987649917
+   }
+  },
+  {
+   "id": "sac_400k",
+   "label": "SAC at 400k steps",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 2714.772652457117,
+    "length": 1000,
+    "fell": false,
+    "distance": 132.81600485324049,
+    "speed": 2.6563200970648095
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.13,
+     "FR": 0.276,
+     "BL": 0.221,
+     "BR": 0.2
+    },
+    "mean_feet_down": 0.827,
+    "airborne": 0.44
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 2230.279181282804,
+    "return_std": 928.2397008312423,
+    "returns": [
+     2714.77,
+     2777.11,
+     378.82,
+     2711.68,
+     2569.02
+    ],
+    "falls": 1,
+    "length_mean": 830.6,
+    "speed_mean": 2.559971775129231,
+    "distance_mean": 108.16775977688224,
+    "effort_mean": 1.8204647326939827
+   }
+  },
+  {
+   "id": "sac_700k",
+   "label": "SAC at 700k steps",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 942,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      942,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 342888,
+     "dtype": "float32",
+     "shape": [
+      942,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 357960,
+     "dtype": "uint8",
+     "shape": [
+      942
+     ]
+    },
+    "torques": {
+     "offset": 358904,
+     "dtype": "int8",
+     "shape": [
+      942,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 4398.2225798254,
+    "length": 942,
+    "fell": true,
+    "distance": 225.59191633861542,
+    "speed": 4.789637289567207
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.02653927813163482,
+     "FR": 0.21019108280254778,
+     "BL": 0.1178343949044586,
+     "BR": 0.2229299363057325
+    },
+    "mean_feet_down": 0.5774946921443737,
+    "airborne": 0.6295116772823779
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 4398.999382722452,
+    "return_std": 53.483864212609305,
+    "returns": [
+     4398.22,
+     4457.87,
+     4443.61,
+     4389.9,
+     4305.39
+    ],
+    "falls": 1,
+    "length_mean": 988.4,
+    "speed_mean": 4.540647202134935,
+    "distance_mean": 224.25437047879777,
+    "effort_mean": 2.174981401058133
+   }
+  },
+  {
+   "id": "sac_1000k",
+   "label": "SAC at 1000k steps",
+   "group": "progression",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 5363.5889955569555,
+    "length": 1000,
+    "fell": false,
+    "distance": 275.01506798447673,
+    "speed": 5.5003013596895345
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.025,
+     "FR": 0.23,
+     "BL": 0.113,
+     "BR": 0.207
+    },
+    "mean_feet_down": 0.575,
+    "airborne": 0.656
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 5100.053039305006,
+    "return_std": 165.2217278473143,
+    "returns": [
+     5363.59,
+     5076.8,
+     4979.31,
+     4890.66,
+     5189.91
+    ],
+    "falls": 0,
+    "length_mean": 1000.0,
+    "speed_mean": 5.214478095770094,
+    "distance_mean": 260.7239047885047,
+    "effort_mean": 2.228852258619666
+   }
+  },
+  {
+   "id": "sac_heavy",
+   "label": "SAC: Torso 1.4x mass",
+   "group": "stress",
+   "physics": {
+    "mass": 1.4,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 5116.706094625631,
+    "length": 1000,
+    "fell": false,
+    "distance": 260.98801056848947,
+    "speed": 5.219760211369789
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.034,
+     "FR": 0.214,
+     "BL": 0.101,
+     "BR": 0.201
+    },
+    "mean_feet_down": 0.55,
+    "airborne": 0.648
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 5212.2695396062,
+    "return_std": 67.96925043253118,
+    "returns": [
+     5116.71,
+     5325.31,
+     5184.31,
+     5230.77,
+     5204.25
+    ],
+    "falls": 0,
+    "length_mean": 1000.0,
+    "speed_mean": 5.316554325589613,
+    "distance_mean": 265.8277162794806,
+    "effort_mean": 2.2085730654478075
+   }
+  },
+  {
+   "id": "sac_light",
+   "label": "SAC: Torso 0.6x mass",
+   "group": "stress",
+   "physics": {
+    "mass": 0.6,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 4849.24457979671,
+    "length": 1000,
+    "fell": false,
+    "distance": 247.73381172355818,
+    "speed": 4.9546762344711635
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.033,
+     "FR": 0.209,
+     "BL": 0.107,
+     "BR": 0.198
+    },
+    "mean_feet_down": 0.547,
+    "airborne": 0.64
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 4870.38419416141,
+    "return_std": 58.96395562087684,
+    "returns": [
+     4849.24,
+     4869.32,
+     4800.95,
+     4853.29,
+     4979.12
+    ],
+    "falls": 0,
+    "length_mean": 1000.0,
+    "speed_mean": 4.979888303077766,
+    "distance_mean": 248.9944151538883,
+    "effort_mean": 2.2190169015169143
+   }
+  },
+  {
+   "id": "sac_ice",
+   "label": "SAC: Floor friction 0.4x",
+   "group": "stress",
+   "physics": {
+    "mass": 1.0,
+    "friction": 0.4,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 5370.540063108235,
+    "length": 1000,
+    "fell": false,
+    "distance": 285.0147286411689,
+    "speed": 5.7002945728233785
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.028,
+     "FR": 0.267,
+     "BL": 0.156,
+     "BR": 0.267
+    },
+    "mean_feet_down": 0.718,
+    "airborne": 0.597
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 5448.128729619375,
+    "return_std": 102.69347357396356,
+    "returns": [
+     5370.54,
+     5425.61,
+     5549.41,
+     5581.6,
+     5313.48
+    ],
+    "falls": 0,
+    "length_mean": 1000.0,
+    "speed_mean": 5.789993083061519,
+    "distance_mean": 289.499654153076,
+    "effort_mean": 2.6837245392739772
+   }
+  },
+  {
+   "id": "sac_grip",
+   "label": "SAC: Floor friction 1.6x",
+   "group": "stress",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.6,
+    "push_force": 0.0
+   },
+   "frames": 129,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      129,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 46956,
+     "dtype": "float32",
+     "shape": [
+      129,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 49020,
+     "dtype": "uint8",
+     "shape": [
+      129
+     ]
+    },
+    "torques": {
+     "offset": 49152,
+     "dtype": "int8",
+     "shape": [
+      129,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 481.4907562151416,
+    "length": 129,
+    "fell": true,
+    "distance": 24.44359552573768,
+    "speed": 3.7897047326725084
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.046511627906976744,
+     "FR": 0.24806201550387597,
+     "BL": 0.1937984496124031,
+     "BR": 0.16279069767441862
+    },
+    "mean_feet_down": 0.6511627906976745,
+    "airborne": 0.6124031007751938
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 881.7499858873658,
+    "return_std": 409.0645921174248,
+    "returns": [
+     481.49,
+     478.21,
+     912.06,
+     941.73,
+     1595.26
+    ],
+    "falls": 3,
+    "length_mean": 533.2,
+    "speed_mean": 2.467693786072138,
+    "distance_mean": 39.44659463437294,
+    "effort_mean": 1.8446377218867742
+   }
+  },
+  {
+   "id": "sac_push",
+   "label": "SAC: Lateral shoves at 10, 20, 30 s",
+   "group": "stress",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 120.0
+   },
+   "frames": 605,
+   "pushes": [
+    200,
+    400,
+    600
+   ],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      605,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 220220,
+     "dtype": "float32",
+     "shape": [
+      605,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 229900,
+     "dtype": "uint8",
+     "shape": [
+      605
+     ]
+    },
+    "torques": {
+     "offset": 230508,
+     "dtype": "int8",
+     "shape": [
+      605,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 2828.5178357160694,
+    "length": 605,
+    "fell": true,
+    "distance": 145.6440593120487,
+    "speed": 4.814679646679296
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.01487603305785124,
+     "FR": 0.21818181818181817,
+     "BL": 0.10909090909090909,
+     "BR": 0.21322314049586777
+    },
+    "mean_feet_down": 0.5553719008264463,
+    "airborne": 0.6413223140495867
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 1656.1170608378889,
+    "return_std": 686.0288611821932,
+    "returns": [
+     2828.52,
+     1793.45,
+     948.13,
+     982.75,
+     1727.74
+    ],
+    "falls": 5,
+    "length_mean": 411.4,
+    "speed_mean": 4.390832704512906,
+    "distance_mean": 87.16101612517937,
+    "effort_mean": 2.363399130226183
+   }
+  },
+  {
+   "id": "ppo_heavy",
+   "label": "PPO: Torso 1.4x mass",
+   "group": "stress",
+   "physics": {
+    "mass": 1.4,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 4755.408951848858,
+    "length": 1000,
+    "fell": false,
+    "distance": 210.0147768330657,
+    "speed": 4.200295536661314
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.179,
+     "FR": 0.159,
+     "BL": 0.168,
+     "BR": 0.089
+    },
+    "mean_feet_down": 0.595,
+    "airborne": 0.617
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 4777.4425960261115,
+    "return_std": 103.3834159442191,
+    "returns": [
+     4755.41,
+     4595.53,
+     4888.49,
+     4863.99,
+     4783.79
+    ],
+    "falls": 1,
+    "length_mean": 989.6,
+    "speed_mean": 4.278157525467133,
+    "distance_mean": 211.67465728196044,
+    "effort_mean": 0.9006142586610615
+   }
+  },
+  {
+   "id": "ppo_light",
+   "label": "PPO: Torso 0.6x mass",
+   "group": "stress",
+   "physics": {
+    "mass": 0.6,
+    "friction": 1.0,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 4704.6611896887425,
+    "length": 1000,
+    "fell": false,
+    "distance": 207.0424747380067,
+    "speed": 4.1408494947601335
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.19,
+     "FR": 0.151,
+     "BL": 0.167,
+     "BR": 0.1
+    },
+    "mean_feet_down": 0.608,
+    "airborne": 0.603
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 4507.677373856072,
+    "return_std": 123.34275326864997,
+    "returns": [
+     4704.66,
+     4521.85,
+     4393.33,
+     4557.52,
+     4361.03
+    ],
+    "falls": 0,
+    "length_mean": 1000.0,
+    "speed_mean": 3.9556213210665434,
+    "distance_mean": 197.78106605332715,
+    "effort_mean": 0.8958986302152276
+   }
+  },
+  {
+   "id": "ppo_ice",
+   "label": "PPO: Floor friction 0.4x",
+   "group": "stress",
+   "physics": {
+    "mass": 1.0,
+    "friction": 0.4,
+    "push_force": 0.0
+   },
+   "frames": 1000,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 364000,
+     "dtype": "float32",
+     "shape": [
+      1000,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 380000,
+     "dtype": "uint8",
+     "shape": [
+      1000
+     ]
+    },
+    "torques": {
+     "offset": 381000,
+     "dtype": "int8",
+     "shape": [
+      1000,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 6157.585460894017,
+    "length": 1000,
+    "fell": false,
+    "distance": 281.5410111641544,
+    "speed": 5.630820223283088
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.22,
+     "FR": 0.224,
+     "BL": 0.25,
+     "BR": 0.145
+    },
+    "mean_feet_down": 0.839,
+    "airborne": 0.458
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 6001.186000151851,
+    "return_std": 123.08915278772456,
+    "returns": [
+     6157.59,
+     5866.67,
+     6105.22,
+     5853.23,
+     6023.23
+    ],
+    "falls": 0,
+    "length_mean": 1000.0,
+    "speed_mean": 5.478017843759748,
+    "distance_mean": 273.9008921879874,
+    "effort_mean": 0.9536833922594786
+   }
+  },
+  {
+   "id": "ppo_grip",
+   "label": "PPO: Floor friction 1.6x",
+   "group": "stress",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.6,
+    "push_force": 0.0
+   },
+   "frames": 128,
+   "pushes": [],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      128,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 46592,
+     "dtype": "float32",
+     "shape": [
+      128,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 48640,
+     "dtype": "uint8",
+     "shape": [
+      128
+     ]
+    },
+    "torques": {
+     "offset": 48768,
+     "dtype": "int8",
+     "shape": [
+      128,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 355.1036482429412,
+    "length": 128,
+    "fell": true,
+    "distance": 14.025796988005734,
+    "speed": 2.1915307793758956
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.1953125,
+     "FR": 0.1484375,
+     "BL": 0.203125,
+     "BR": 0.265625
+    },
+    "mean_feet_down": 0.8125,
+    "airborne": 0.4609375
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 1088.8534496534965,
+    "return_std": 431.37407560829115,
+    "returns": [
+     355.1,
+     1307.72,
+     1594.8,
+     1303.2,
+     883.44
+    ],
+    "falls": 2,
+    "length_mean": 734.2,
+    "speed_mean": 1.1233022862654818,
+    "distance_mean": 26.278374015707612,
+    "effort_mean": 0.5643538766988934
+   }
+  },
+  {
+   "id": "ppo_push",
+   "label": "PPO: Lateral shoves at 10, 20, 30 s",
+   "group": "stress",
+   "physics": {
+    "mass": 1.0,
+    "friction": 1.0,
+    "push_force": 120.0
+   },
+   "frames": 405,
+   "pushes": [
+    200,
+    400
+   ],
+   "layout": {
+    "poses": {
+     "offset": 0,
+     "dtype": "float32",
+     "shape": [
+      405,
+      91
+     ]
+    },
+    "metrics": {
+     "offset": 147420,
+     "dtype": "float32",
+     "shape": [
+      405,
+      4
+     ]
+    },
+    "contacts": {
+     "offset": 153900,
+     "dtype": "uint8",
+     "shape": [
+      405
+     ]
+    },
+    "torques": {
+     "offset": 154308,
+     "dtype": "int8",
+     "shape": [
+      405,
+      8
+     ]
+    }
+   },
+   "recorded": {
+    "return": 1874.889664076499,
+    "length": 405,
+    "fell": true,
+    "distance": 82.30462846897464,
+    "speed": 4.064426097233316
+   },
+   "gait": {
+    "duty": {
+     "FL": 0.18518518518518517,
+     "FR": 0.20493827160493827,
+     "BL": 0.1728395061728395,
+     "BR": 0.0962962962962963
+    },
+    "mean_feet_down": 0.6592592592592592,
+    "airborne": 0.5703703703703704
+   },
+   "eval": {
+    "episodes": 5,
+    "return_mean": 1875.5289845141851,
+    "return_std": 578.468981894717,
+    "returns": [
+     1874.89,
+     864.37,
+     2278.99,
+     2568.85,
+     1790.55
+    ],
+    "falls": 4,
+    "length_mean": 524.6,
+    "speed_mean": 3.380677162648566,
+    "distance_mean": 78.3846718858701,
+    "effort_mean": 0.8775462256918068
+   }
+  }
+ ]
+}
