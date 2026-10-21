@@ -14,3 +14,7 @@ server.log
 report.pdf
 results/*.gif
 results/*.mp4
+
+# web app
+web/node_modules/
+web/dist/

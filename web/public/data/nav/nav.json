@@ -1,0 +1,1060 @@
+{
+ "walker": "nav_6000k",
+ "seeds": [
+  100,
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109
+ ],
+ "steer": {
+  "schedule_deg": [
+   0,
+   90,
+   180,
+   270,
+   45,
+   225,
+   135,
+   315
+  ],
+  "seconds_each": 7.0,
+  "pilots": {
+   "forward": {
+    "layout": {
+     "poses": {
+      "offset": 0,
+      "dtype": "float32",
+      "shape": [
+       1120,
+       91
+      ]
+     },
+     "metrics": {
+      "offset": 407680,
+      "dtype": "float32",
+      "shape": [
+       1120,
+       4
+      ]
+     },
+     "contacts": {
+      "offset": 425600,
+      "dtype": "uint8",
+      "shape": [
+       1120
+      ]
+     },
+     "torques": {
+      "offset": 426720,
+      "dtype": "int8",
+      "shape": [
+       1120,
+       8
+      ]
+     },
+     "commands": {
+      "offset": 435680,
+      "dtype": "float32",
+      "shape": [
+       1120
+      ]
+     },
+     "track": {
+      "offset": 440160,
+      "dtype": "float32",
+      "shape": [
+       1120,
+       2
+      ]
+     }
+    },
+    "frames": 1120,
+    "recorded": {
+     "speed": 0.09730092815889065,
+     "lateral": 3.4449800067706677,
+     "fell": false
+    },
+    "eval": {
+     "episodes": 10,
+     "speed_along_command": 0.12563858437375433,
+     "sideways_drift": 3.38268275289306,
+     "falls": 1
+    }
+   },
+   "steerable": {
+    "layout": {
+     "poses": {
+      "offset": 0,
+      "dtype": "float32",
+      "shape": [
+       1120,
+       91
+      ]
+     },
+     "metrics": {
+      "offset": 407680,
+      "dtype": "float32",
+      "shape": [
+       1120,
+       4
+      ]
+     },
+     "contacts": {
+      "offset": 425600,
+      "dtype": "uint8",
+      "shape": [
+       1120
+      ]
+     },
+     "torques": {
+      "offset": 426720,
+      "dtype": "int8",
+      "shape": [
+       1120,
+       8
+      ]
+     },
+     "commands": {
+      "offset": 435680,
+      "dtype": "float32",
+      "shape": [
+       1120
+      ]
+     },
+     "track": {
+      "offset": 440160,
+      "dtype": "float32",
+      "shape": [
+       1120,
+       2
+      ]
+     }
+    },
+    "frames": 1120,
+    "recorded": {
+     "speed": 2.0176166826510973,
+     "lateral": 0.574030364912849,
+     "fell": false
+    },
+    "eval": {
+     "episodes": 10,
+     "speed_along_command": 1.8868234143850597,
+     "sideways_drift": 0.47165108988501,
+     "falls": 0
+    }
+   }
+  }
+ },
+ "mazes": {
+  "switchback": {
+   "grid": [
+    "#########",
+    "#S..#...#",
+    "###.#.#.#",
+    "#...#.#.#",
+    "#.###.#.#",
+    "#.....#G#",
+    "#########"
+   ],
+   "cell": 4.0,
+   "goal_radius": 1.5,
+   "walls": [
+    [
+     0.0,
+     12.0,
+     18.0,
+     2.0
+    ],
+    [
+     -16.0,
+     8.0,
+     2.0,
+     2.0
+    ],
+    [
+     0.0,
+     8.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     8.0,
+     2.0,
+     2.0
+    ],
+    [
+     -12.0,
+     4.0,
+     6.0,
+     2.0
+    ],
+    [
+     0.0,
+     4.0,
+     2.0,
+     2.0
+    ],
+    [
+     8.0,
+     4.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     4.0,
+     2.0,
+     2.0
+    ],
+    [
+     -16.0,
+     0.0,
+     2.0,
+     2.0
+    ],
+    [
+     0.0,
+     0.0,
+     2.0,
+     2.0
+    ],
+    [
+     8.0,
+     0.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     0.0,
+     2.0,
+     2.0
+    ],
+    [
+     -16.0,
+     -4.0,
+     2.0,
+     2.0
+    ],
+    [
+     -4.0,
+     -4.0,
+     6.0,
+     2.0
+    ],
+    [
+     8.0,
+     -4.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     -4.0,
+     2.0,
+     2.0
+    ],
+    [
+     -16.0,
+     -8.0,
+     2.0,
+     2.0
+    ],
+    [
+     8.0,
+     -8.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     -8.0,
+     2.0,
+     2.0
+    ],
+    [
+     0.0,
+     -12.0,
+     18.0,
+     2.0
+    ]
+   ],
+   "path": [
+    [
+     -12.0,
+     8.0
+    ],
+    [
+     -4.0,
+     8.0
+    ],
+    [
+     -4.0,
+     0.0
+    ],
+    [
+     -12.0,
+     0.0
+    ],
+    [
+     -12.0,
+     -8.0
+    ],
+    [
+     4.0,
+     -8.0
+    ],
+    [
+     4.0,
+     8.0
+    ],
+    [
+     12.0,
+     8.0
+    ],
+    [
+     12.0,
+     -8.0
+    ]
+   ],
+   "start": [
+    -12.0,
+    8.0
+   ],
+   "goal": [
+    12.0,
+    -8.0
+   ],
+   "pilots": {
+    "random": {
+     "layout": {
+      "poses": {
+       "offset": 0,
+       "dtype": "float32",
+       "shape": [
+        143,
+        91
+       ]
+      },
+      "metrics": {
+       "offset": 52052,
+       "dtype": "float32",
+       "shape": [
+        143,
+        4
+       ]
+      },
+      "contacts": {
+       "offset": 54340,
+       "dtype": "uint8",
+       "shape": [
+        143
+       ]
+      },
+      "torques": {
+       "offset": 54484,
+       "dtype": "int8",
+       "shape": [
+        143,
+        8
+       ]
+      },
+      "commands": {
+       "offset": 55628,
+       "dtype": "float32",
+       "shape": [
+        143
+       ]
+      },
+      "track": {
+       "offset": 56200,
+       "dtype": "float32",
+       "shape": [
+        143,
+        2
+       ]
+      }
+     },
+     "clip": {
+      "seed": 100,
+      "success": false,
+      "seconds": 7.15,
+      "frames": 143
+     },
+     "eval": {
+      "episodes": 10,
+      "success": 0,
+      "seconds": null,
+      "falls": 10,
+      "closest_m": 28.166921231746763,
+      "wall_contact_s": 0.095,
+      "recoveries": 0.0
+     }
+    },
+    "forward": {
+     "layout": {
+      "poses": {
+       "offset": 0,
+       "dtype": "float32",
+       "shape": [
+        323,
+        91
+       ]
+      },
+      "metrics": {
+       "offset": 117572,
+       "dtype": "float32",
+       "shape": [
+        323,
+        4
+       ]
+      },
+      "contacts": {
+       "offset": 122740,
+       "dtype": "uint8",
+       "shape": [
+        323
+       ]
+      },
+      "torques": {
+       "offset": 123064,
+       "dtype": "int8",
+       "shape": [
+        323,
+        8
+       ]
+      },
+      "commands": {
+       "offset": 125648,
+       "dtype": "float32",
+       "shape": [
+        323
+       ]
+      },
+      "track": {
+       "offset": 126940,
+       "dtype": "float32",
+       "shape": [
+        323,
+        2
+       ]
+      }
+     },
+     "clip": {
+      "seed": 100,
+      "success": false,
+      "seconds": 16.150000000000002,
+      "frames": 323
+     },
+     "eval": {
+      "episodes": 10,
+      "success": 0,
+      "seconds": null,
+      "falls": 4,
+      "closest_m": 21.765971101510388,
+      "wall_contact_s": 10.475,
+      "recoveries": 0.0
+     }
+    },
+    "beeline": {
+     "layout": {
+      "poses": {
+       "offset": 0,
+       "dtype": "float32",
+       "shape": [
+        2400,
+        91
+       ]
+      },
+      "metrics": {
+       "offset": 873600,
+       "dtype": "float32",
+       "shape": [
+        2400,
+        4
+       ]
+      },
+      "contacts": {
+       "offset": 912000,
+       "dtype": "uint8",
+       "shape": [
+        2400
+       ]
+      },
+      "torques": {
+       "offset": 914400,
+       "dtype": "int8",
+       "shape": [
+        2400,
+        8
+       ]
+      },
+      "commands": {
+       "offset": 933600,
+       "dtype": "float32",
+       "shape": [
+        2400
+       ]
+      },
+      "track": {
+       "offset": 943200,
+       "dtype": "float32",
+       "shape": [
+        2400,
+        2
+       ]
+      }
+     },
+     "clip": {
+      "seed": 100,
+      "success": false,
+      "seconds": 120.0,
+      "frames": 2400
+     },
+     "eval": {
+      "episodes": 10,
+      "success": 0,
+      "seconds": null,
+      "falls": 1,
+      "closest_m": 16.36887487922825,
+      "wall_contact_s": 5.16,
+      "recoveries": 0.0
+     }
+    },
+    "planner": {
+     "layout": {
+      "poses": {
+       "offset": 0,
+       "dtype": "float32",
+       "shape": [
+        1064,
+        91
+       ]
+      },
+      "metrics": {
+       "offset": 387296,
+       "dtype": "float32",
+       "shape": [
+        1064,
+        4
+       ]
+      },
+      "contacts": {
+       "offset": 404320,
+       "dtype": "uint8",
+       "shape": [
+        1064
+       ]
+      },
+      "torques": {
+       "offset": 405384,
+       "dtype": "int8",
+       "shape": [
+        1064,
+        8
+       ]
+      },
+      "commands": {
+       "offset": 413896,
+       "dtype": "float32",
+       "shape": [
+        1064
+       ]
+      },
+      "track": {
+       "offset": 418152,
+       "dtype": "float32",
+       "shape": [
+        1064,
+        2
+       ]
+      }
+     },
+     "clip": {
+      "seed": 100,
+      "success": true,
+      "seconds": 53.2,
+      "frames": 1064
+     },
+     "eval": {
+      "episodes": 10,
+      "success": 10,
+      "seconds": 49.45,
+      "falls": 0,
+      "closest_m": 1.4197415030317253,
+      "wall_contact_s": 0.16,
+      "recoveries": 0.2
+     }
+    }
+   }
+  },
+  "spiral": {
+   "grid": [
+    "#########",
+    "#.......#",
+    "#.#####.#",
+    "#.#G..#.#",
+    "#.###.#.#",
+    "#S....#.#",
+    "#########"
+   ],
+   "cell": 4.0,
+   "goal_radius": 1.5,
+   "walls": [
+    [
+     0.0,
+     12.0,
+     18.0,
+     2.0
+    ],
+    [
+     -16.0,
+     8.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     8.0,
+     2.0,
+     2.0
+    ],
+    [
+     -16.0,
+     4.0,
+     2.0,
+     2.0
+    ],
+    [
+     0.0,
+     4.0,
+     10.0,
+     2.0
+    ],
+    [
+     16.0,
+     4.0,
+     2.0,
+     2.0
+    ],
+    [
+     -16.0,
+     0.0,
+     2.0,
+     2.0
+    ],
+    [
+     -8.0,
+     0.0,
+     2.0,
+     2.0
+    ],
+    [
+     8.0,
+     0.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     0.0,
+     2.0,
+     2.0
+    ],
+    [
+     -16.0,
+     -4.0,
+     2.0,
+     2.0
+    ],
+    [
+     -4.0,
+     -4.0,
+     6.0,
+     2.0
+    ],
+    [
+     8.0,
+     -4.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     -4.0,
+     2.0,
+     2.0
+    ],
+    [
+     -16.0,
+     -8.0,
+     2.0,
+     2.0
+    ],
+    [
+     8.0,
+     -8.0,
+     2.0,
+     2.0
+    ],
+    [
+     16.0,
+     -8.0,
+     2.0,
+     2.0
+    ],
+    [
+     0.0,
+     -12.0,
+     18.0,
+     2.0
+    ]
+   ],
+   "path": [
+    [
+     -12.0,
+     -8.0
+    ],
+    [
+     4.0,
+     -8.0
+    ],
+    [
+     4.0,
+     0.0
+    ],
+    [
+     -4.0,
+     0.0
+    ]
+   ],
+   "start": [
+    -12.0,
+    -8.0
+   ],
+   "goal": [
+    -4.0,
+    0.0
+   ],
+   "pilots": {
+    "random": {
+     "layout": {
+      "poses": {
+       "offset": 0,
+       "dtype": "float32",
+       "shape": [
+        103,
+        91
+       ]
+      },
+      "metrics": {
+       "offset": 37492,
+       "dtype": "float32",
+       "shape": [
+        103,
+        4
+       ]
+      },
+      "contacts": {
+       "offset": 39140,
+       "dtype": "uint8",
+       "shape": [
+        103
+       ]
+      },
+      "torques": {
+       "offset": 39244,
+       "dtype": "int8",
+       "shape": [
+        103,
+        8
+       ]
+      },
+      "commands": {
+       "offset": 40068,
+       "dtype": "float32",
+       "shape": [
+        103
+       ]
+      },
+      "track": {
+       "offset": 40480,
+       "dtype": "float32",
+       "shape": [
+        103,
+        2
+       ]
+      }
+     },
+     "clip": {
+      "seed": 100,
+      "success": false,
+      "seconds": 5.15,
+      "frames": 103
+     },
+     "eval": {
+      "episodes": 10,
+      "success": 0,
+      "seconds": null,
+      "falls": 10,
+      "closest_m": 10.126801881558672,
+      "wall_contact_s": 0.06500000000000002,
+      "recoveries": 0.0
+     }
+    },
+    "forward": {
+     "layout": {
+      "poses": {
+       "offset": 0,
+       "dtype": "float32",
+       "shape": [
+        96,
+        91
+       ]
+      },
+      "metrics": {
+       "offset": 34944,
+       "dtype": "float32",
+       "shape": [
+        96,
+        4
+       ]
+      },
+      "contacts": {
+       "offset": 36480,
+       "dtype": "uint8",
+       "shape": [
+        96
+       ]
+      },
+      "torques": {
+       "offset": 36576,
+       "dtype": "int8",
+       "shape": [
+        96,
+        8
+       ]
+      },
+      "commands": {
+       "offset": 37344,
+       "dtype": "float32",
+       "shape": [
+        96
+       ]
+      },
+      "track": {
+       "offset": 37728,
+       "dtype": "float32",
+       "shape": [
+        96,
+        2
+       ]
+      }
+     },
+     "clip": {
+      "seed": 100,
+      "success": false,
+      "seconds": 4.800000000000001,
+      "frames": 96
+     },
+     "eval": {
+      "episodes": 10,
+      "success": 0,
+      "seconds": null,
+      "falls": 3,
+      "closest_m": 7.271492006175211,
+      "wall_contact_s": 11.96,
+      "recoveries": 0.0
+     }
+    },
+    "beeline": {
+     "layout": {
+      "poses": {
+       "offset": 0,
+       "dtype": "float32",
+       "shape": [
+        2400,
+        91
+       ]
+      },
+      "metrics": {
+       "offset": 873600,
+       "dtype": "float32",
+       "shape": [
+        2400,
+        4
+       ]
+      },
+      "contacts": {
+       "offset": 912000,
+       "dtype": "uint8",
+       "shape": [
+        2400
+       ]
+      },
+      "torques": {
+       "offset": 914400,
+       "dtype": "int8",
+       "shape": [
+        2400,
+        8
+       ]
+      },
+      "commands": {
+       "offset": 933600,
+       "dtype": "float32",
+       "shape": [
+        2400
+       ]
+      },
+      "track": {
+       "offset": 943200,
+       "dtype": "float32",
+       "shape": [
+        2400,
+        2
+       ]
+      }
+     },
+     "clip": {
+      "seed": 100,
+      "success": false,
+      "seconds": 120.0,
+      "frames": 2400
+     },
+     "eval": {
+      "episodes": 10,
+      "success": 0,
+      "seconds": null,
+      "falls": 0,
+      "closest_m": 7.591488561546541,
+      "wall_contact_s": 3.78,
+      "recoveries": 0.0
+     }
+    },
+    "planner": {
+     "layout": {
+      "poses": {
+       "offset": 0,
+       "dtype": "float32",
+       "shape": [
+        357,
+        91
+       ]
+      },
+      "metrics": {
+       "offset": 129948,
+       "dtype": "float32",
+       "shape": [
+        357,
+        4
+       ]
+      },
+      "contacts": {
+       "offset": 135660,
+       "dtype": "uint8",
+       "shape": [
+        357
+       ]
+      },
+      "torques": {
+       "offset": 136020,
+       "dtype": "int8",
+       "shape": [
+        357,
+        8
+       ]
+      },
+      "commands": {
+       "offset": 138876,
+       "dtype": "float32",
+       "shape": [
+        357
+       ]
+      },
+      "track": {
+       "offset": 140304,
+       "dtype": "float32",
+       "shape": [
+        357,
+        2
+       ]
+      }
+     },
+     "clip": {
+      "seed": 101,
+      "success": true,
+      "seconds": 17.85,
+      "frames": 357
+     },
+     "eval": {
+      "episodes": 10,
+      "success": 9,
+      "seconds": 20.22222222222222,
+      "falls": 1,
+      "closest_m": 2.029904881739524,
+      "wall_contact_s": 0.10500000000000001,
+      "recoveries": 0.4
+     }
+    }
+   }
+  }
+ },
+ "curve": [
+  {
+   "timesteps": 1000008,
+   "return": 1212.21307128,
+   "minutes": 4.3,
+   "checkpoint": "nav_1000k"
+  },
+  {
+   "timesteps": 2000004,
+   "return": 1795.1902184099997,
+   "minutes": 9.8,
+   "checkpoint": "nav_2000k"
+  },
+  {
+   "timesteps": 3000000,
+   "return": 2027.4564832899998,
+   "minutes": 15.5,
+   "checkpoint": "nav_3000k"
+  },
+  {
+   "timesteps": 4000008,
+   "return": 2217.43696382,
+   "minutes": 20.9,
+   "checkpoint": "nav_4000k"
+  },
+  {
+   "timesteps": 5000004,
+   "return": 2180.41186364,
+   "minutes": 26.2,
+   "checkpoint": "nav_5000k"
+  },
+  {
+   "timesteps": 6000000,
+   "return": 2266.86189259,
+   "minutes": 31.5,
+   "checkpoint": "nav_6000k"
+  },
+  {
+   "timesteps": 7000008,
+   "return": 2331.39338642,
+   "minutes": 36.8,
+   "checkpoint": "nav_7000k"
+  },
+  {
+   "timesteps": 8000004,
+   "return": 2379.1609026899996,
+   "minutes": 42.1,
+   "checkpoint": "nav_8000k"
+  }
+ ]
+}

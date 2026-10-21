@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quadruped RL</title>
+<meta name="description" content="A MuJoCo quadruped trained in stages: walking with SAC and PPO, steering on command, and navigating mazes with a planner.">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15140f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23c2410c'/%3E%3Ccircle cx='16' cy='14' r='5' fill='%23f6f3ec'/%3E%3Cpath d='M12 17 6 25M20 17l6 8M13 12 7 6M19 12l6-6' stroke='%23f6f3ec' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="mast">
+  <div class="mast-in">
+    <a class="name" href="#top">Quadruped RL</a>
+    <nav aria-label="Sections">
+      <a href="#bench">Walk</a>
+      <a href="#steer">Steer</a>
+      <a href="#maze">Maze</a>
+      <a href="#learning">Learning</a>
+      <a href="#robust">Robustness</a>
+      <a href="#method">Method</a>
+    </nav>
+    <button class="theme" id="theme" type="button" aria-label="Toggle dark mode">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="4.2"/><path d="M10 1.5v2.2M10 16.3v2.2M1.5 10h2.2M16.3 10h2.2M4 4l1.5 1.5M14.5 14.5 16 16M4 16l1.5-1.5M14.5 5.5 16 4"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="intro">
+    <h1>Quadruped RL</h1>
+    <p class="lede" id="lede">The MuJoCo Ant, trained in stages: random torques, a forward walk (SAC and PPO), a walk that follows a commanded heading, and that walker driven through mazes by an A* planner. Every clip is a recorded rollout of a saved policy.</p>
+  </section>
+
+  <nav class="stagebar" id="stageBar" aria-label="Training stages">
+    <a href="#bench" data-stage="random">1. Untrained</a>
+    <a href="#bench" data-stage="walk">2. Walking</a>
+    <a href="#steer">3. Steering</a>
+    <a href="#maze">4. Maze</a>
+  </nav>
+
+  <section class="bench" id="bench" aria-label="Rollout viewer">
+    <div class="stage-col">
+      <div class="stages" id="stages">
+        <figure class="stage" id="stageA">
+          <canvas id="canvasA" aria-label="3D replay of the selected rollout"></canvas>
+          <figcaption class="tag-row">
+            <span class="run-name" id="nameA">--</span>
+            <span class="run-sub" id="subA"></span>
+          </figcaption>
+          <div class="hud" id="hudA"></div>
+          <div class="fell" id="fellA" hidden>Fell over</div>
+        </figure>
+        <figure class="stage" id="stageB" hidden>
+          <canvas id="canvasB" aria-label="3D replay of the comparison rollout"></canvas>
+          <figcaption class="tag-row">
+            <span class="run-name" id="nameB">--</span>
+            <span class="run-sub" id="subB"></span>
+          </figcaption>
+          <div class="hud" id="hudB"></div>
+          <div class="fell" id="fellB" hidden>Fell over</div>
+        </figure>
+      </div>
+      <div class="transport">
+        <button id="play" class="play" type="button" aria-label="Pause">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-pause" d="M4 3h3v10H4zM9 3h3v10H9z"/><path class="i-play" d="M4 2.5v11l9-5.5z"/></svg>
+        </button>
+        <input type="range" id="scrub" min="0" max="999" step="0.01" value="0" aria-label="Time">
+        <span class="clock" id="clock">00.0 s</span>
+        <div class="seg" role="group" aria-label="Playback speed">
+          <button data-speed="0.5">½×</button>
+          <button data-speed="1" class="on">1×</button>
+          <button data-speed="2">2×</button>
+          <button data-speed="4">4×</button>
+        </div>
+        <label class="cmp">
+          <span>Compare</span>
+          <select id="compare" aria-label="Compare with"><option value="">off</option></select>
+        </label>
+      </div>
+      <div class="gait-wrap">
+        <canvas id="gait" aria-label="Gait diagram and joint torques; click to scrub"></canvas>
+      </div>
+    </div>
+
+    <aside class="picker" aria-label="Choose a rollout">
+      <h2>Rollouts</h2>
+      <p class="hint">Mean return over <span id="nEval">5</span> seeds.</p>
+      <div class="group">
+        <h3>Learning progression</h3>
+        <div id="listProgress"></div>
+      </div>
+      <div class="group">
+        <h3>Stress tests</h3>
+        <div id="listStress"></div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="sect" id="steer">
+    <div class="sect-head">
+      <h2>Steering</h2>
+      <p>The stage 2 walkers were only rewarded for moving along +x. The stage 3 walker gets a heading in its observation, a new one every few seconds, and is rewarded for progress along it. Both robots below get the same commands (blue arrow).</p>
+    </div>
+    <div class="duo" id="steerDuo">
+      <figure class="stage nav-stage"><canvas id="steerA"></canvas><figcaption class="tag-row"><span class="run-name" style="--swatch:var(--sac)">Stage 2 walker (forward only)</span><span class="run-sub" id="steerSubA"></span></figcaption></figure>
+      <figure class="stage nav-stage"><canvas id="steerB"></canvas><figcaption class="tag-row"><span class="run-name" style="--swatch:var(--ppo)">Stage 3 walker (steerable)</span><span class="run-sub" id="steerSubB"></span></figcaption></figure>
+    </div>
+    <div class="transport slim">
+      <button id="steerPlay" class="play" type="button" aria-label="Pause"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-pause" d="M4 3h3v10H4zM9 3h3v10H9z"/><path class="i-play" d="M4 2.5v11l9-5.5z"/></svg></button>
+      <input type="range" id="steerScrub" min="0" max="1" step="0.01" value="0" aria-label="Time">
+      <span class="clock" id="steerClock">00.0 s</span>
+      <span class="cmd" id="steerCmd">command: --</span>
+    </div>
+    <div class="steer-stats" id="steerStats"></div>
+  </section>
+
+  <section class="sect" id="maze">
+    <div class="sect-head">
+      <h2>Maze</h2>
+      <p>The walker never saw a wall in training. A* plans a route on the maze grid, and each step the walker is pointed at a spot 2.2 m further along it. If it stops making progress for 3 s it shuffles sideways, then carries on. The three simpler pilots run the same maze for comparison.</p>
+    </div>
+    <div class="maze-bench">
+      <figure class="stage maze-stage">
+        <canvas id="mazeCanvas"></canvas>
+        <figcaption class="tag-row"><span class="run-name" id="mazeName">--</span><span class="run-sub" id="mazeSub"></span></figcaption>
+        <div class="fell" id="mazeOutcome" hidden></div>
+        <button class="view-toggle" id="mazeView" type="button">Overhead view</button>
+      </figure>
+      <aside class="maze-side">
+        <div class="seg wide" id="mazePick" role="group" aria-label="Maze"></div>
+        <div class="pilot-list" id="mazePilots"></div>
+        <canvas id="mazeMap" aria-label="Top-down map: planned path and the robot's track"></canvas>
+        <p class="hint">Dashed: the planned path. Solid: where the robot actually went.</p>
+      </aside>
+    </div>
+    <div class="transport slim">
+      <button id="mazePlay" class="play" type="button" aria-label="Pause"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-pause" d="M4 3h3v10H4zM9 3h3v10H9z"/><path class="i-play" d="M4 2.5v11l9-5.5z"/></svg></button>
+      <input type="range" id="mazeScrub" min="0" max="1" step="0.01" value="0" aria-label="Time">
+      <span class="clock" id="mazeClock">00.0 s</span>
+      <div class="seg" role="group" aria-label="Playback speed" id="mazeSpeed">
+        <button data-mspeed="1" class="on">1×</button><button data-mspeed="2">2×</button><button data-mspeed="4">4×</button>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="results" id="mazeTable"></table></div>
+  </section>
+
+  <section class="sect" id="learning">
+    <div class="sect-head">
+      <h2>Learning curves</h2>
+      <p>Evaluation return during training, mean ± 1 sd. SAC ran 1M steps, the tuned PPO 2M. Click a SAC checkpoint tick to watch it.</p>
+    </div>
+    <div class="plot" id="curveChart"></div>
+    <p class="aside" id="ppoNote">The first PPO run started with an action standard deviation of 1.0. Torques that large throw the torso past the health limit within a few dozen steps, so episodes ended before anything was learned. The tuned run starts at log σ = −1 and uses separate 256×256 networks, 8 × 1024-step rollouts and minibatches of 256.</p>
+  </section>
+
+  <section class="sect" id="progression">
+    <div class="sect-head">
+      <h2>SAC checkpoints</h2>
+      <p>Same seed at each checkpoint. Early policies collect the survival bonus by standing still; forward motion appears between 200k and 400k steps.</p>
+    </div>
+    <div class="strip" id="strip"></div>
+  </section>
+
+  <section class="sect" id="robust">
+    <div class="sect-head">
+      <h2>Where the walk breaks</h2>
+      <p>Mean return with torso mass and floor friction scaled away from the training values. The outlined cell is the nominal model.</p>
+    </div>
+    <div class="finding" id="finding"></div>
+    <div class="heats" id="heats"></div>
+    <div class="stress" id="stressCards"></div>
+  </section>
+
+  <section class="sect method" id="method">
+    <div class="sect-head"><h2>Method</h2></div>
+    <div class="cols">
+      <div>
+        <h3>Environment</h3>
+        <p>Gymnasium <code>Ant-v4</code>, MuJoCo 3.1.6. 27 observations, 8 torques in [−1, 1], reward = forward velocity + survival bonus − control cost. Episodes end at 1,000 steps or when the torso leaves 0.2–1.0 m.</p>
+        <h3>Training</h3>
+        <p>Stable-Baselines3 2.3, one seed per configuration. SAC: 1M steps, 256×256, 1M buffer, auto entropy, RTX 4060, 2.7 h. PPO: 8 envs, observation and reward normalization, 2M steps on CPU, 35 min. Steering: PPO, 12 envs, 8M steps, 42 min.</p>
+      </div>
+      <div>
+        <h3>Replays</h3>
+        <p><code>export_web.py</code> and <code>export_nav.py</code> run each checkpoint in MuJoCo with deterministic actions and record body poses, foot contacts and joint torques at 20 Hz. This page plays those recordings back.</p>
+        <h3>Limits</h3>
+        <p>One seed per algorithm, so the SAC/PPO gap is this run's result, not a ranking. No actuator latency, sensor noise or rough terrain. The planner is given the maze layout.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>quadruped-rl-sim</span>
+  <span>Stable-Baselines3, Gymnasium, MuJoCo, three.js</span>
+</footer>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
